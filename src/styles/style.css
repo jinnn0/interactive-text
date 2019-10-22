@@ -1,0 +1,45 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "Plain", sans-serif;
+  letter-spacing: 0.01em;
+  font-weight: 200;
+}
+
+input {
+  letter-spacing: 1.3px;
+  width: 250px;
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  bottom: 35px;
+  left: calc(50% - 125px);
+  background: none;
+  font-size: 1rem;
+  font-family: arial;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  outline: none;
+  background: rgba(255, 255, 255, 0);
+  color: #bdbdbd;
+}
+
+input::-webkit-input-placeholder {
+  color: #bdbdbd;
+}
+
+input:-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
+input::-ms-input-placeholder {
+  color: #bdbdbd;
+}
+
+input::placeholder {
+  color: #bdbdbd;
+}
+/*# sourceMappingURL=style.css.map */
