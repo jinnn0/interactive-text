@@ -5,13 +5,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const fse = require('fs-extra')
 
-class RunAfterCompile { 
-  apply(compiler){
-    compiler.hooks.done.tap('Copy images', function(){
-      fse.copySync('./app/src/images', './docs/src/images')
-    })
-  } 
-} 
+// class RunAfterCompile { 
+//   apply(compiler){
+//     compiler.hooks.done.tap('Copy images', function(){
+//       fse.copySync('./app/src/images', './docs/src/images')
+//     })
+//   } 
+// } 
 
 
 let cssConfig = { 
@@ -99,7 +99,7 @@ if(currentTask == 'build'){
     config.plugins.push(
         new CleanWebpackPlugin(), 
         new MiniCssExtractPlugin({filename:'styles.[chunkhash].css' }),
-        new RunAfterCompile()
+        // new RunAfterCompile()
         )
 }   
    
