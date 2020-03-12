@@ -1,2 +1,0 @@
-*{margin:0;padding:0;box-sizing:border-box;font-family:"Plain", sans-serif;letter-spacing:0.01em;font-weight:200}input{letter-spacing:1.3px;width:170px;height:40px;line-height:40px;position:absolute;bottom:35px;left:calc(50% - 125px);background:none;font-size:1rem;font-family:arial;text-align:center;border:none;border-bottom:1px solid #bbb;outline:none;background:rgba(255,255,255,0);color:#bdbdbd}input::placeholder{color:#bdbdbd}
-

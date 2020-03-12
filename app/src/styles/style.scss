@@ -8,25 +8,42 @@
 }  
 
   
-input{ 
-  letter-spacing: 1.3px;
-  width: 170px;
-  height: 40px;
-  line-height: 40px;
+form {
+  position: relative;
+  width: auto;
+  height: 50px;
   position: absolute;
   bottom: 35px;
   left: calc(50% - 125px);
+}
+
+input{ 
+  letter-spacing: 1.3px;
+  line-height: 40px;
+  width: 100%;
+  height: 100%;
   background: none;
   font-size: 1rem; 
   font-family: arial;
   text-align: center;
   border: none;
-  border-bottom: 1px solid rgb(187, 187, 187);
   outline: none;
-  background: rgba(255, 255, 255, 0);
-  color: rgb(189, 189, 189);
+  // color: rgb(189, 189, 189);
 }
  
 input::placeholder {
   color: rgb(189, 189, 189);
 }
+
+
+.input-bottom {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 2.7px;
+  border-radius: 2%;
+  background-color:rgb(43, 43, 43);
+}
+

@@ -1,12 +1,10 @@
 import '../styles/style.scss'
 
 function particleText(){
-
 	let canvas = document.querySelector("canvas")
   let canvasContext2d = canvas.getContext("2d") 
-
-  let windowWidth = canvas.width = window.innerWidth
-  let windowHeight = canvas.height = window.innerHeight
+  let canvasWidth = canvas.width = window.innerWidth
+  let canvasHeight = canvas.height = window.innerHeight
   let form = document.querySelector('form')
   let text = form.querySelector(".text")
   let textMessage = text.value 
@@ -15,14 +13,14 @@ function particleText(){
   let mouse = {x: undefined, y: undefined}
 
   function Particle(x, y, r, accX, accY){
-    this.x = randomIntFromRange(r, windowWidth-r)
-    this.y = randomIntFromRange(r, windowHeight-r)
+    this.x = randomIntFromRange(r, canvasWidth-r)
+    this.y = randomIntFromRange(r, canvasHeight-r)
     this.r = r
     this.color = "black"
     this.velocity = {x: randomIntFromRange(-10, 10), y: randomIntFromRange(-10, 10)}
     this.dest = {x : x, y : y}
-    // this.accX = 0;
-    // this.accY = 0;
+    this.accX = 5;
+    this.accY = 5;
     this.accX = accX;
     this.accY = accY;
     // this.friction = Math.random() * 0.05 + 0.94;
@@ -33,7 +31,7 @@ function particleText(){
       
       canvasContext2d.beginPath()
       canvasContext2d.arc(this.x, this.y, this.r, 0, Math.PI * 2)
-      // c.arc(this.dest.x, this.dest.y, this.r, 0, Math.PI * 2)
+      // canvasContext2d.arc(this.dest.x, this.dest.y, this.r, 0, Math.PI * 2)
       canvasContext2d.fillStyle = this.color
       canvasContext2d.fill()
       canvasContext2d.closePath()
@@ -47,16 +45,14 @@ function particleText(){
     this.update = function(){
       this.draw()
 
-      if(this.x + this.r > windowWidth || this.x - this.r < 0){
+      if(this.x + this.r > canvasWidth || this.x - this.r < 0){
         this.velocity.x = -this.velocity.x
       }
 
-      if(this.y + this.r > windowHeight || this.y - this.r < 0){
+      if(this.y + this.r > canvasHeight || this.y - this.r < 0){
         this.velocity.y = -this.velocity.y
       }
  
-      // need a explanation for this line below 
-      // why the distances are divide by 500 ??
       this.accX = (this.dest.x - this.x) / 300;
       this.accY = (this.dest.y - this.y) / 300;
 
@@ -84,18 +80,18 @@ function particleText(){
   function init(){
     particles = []
   
-    canvasContext2d.font = `bold ${windowWidth/10}px sans-serif`;
+    canvasContext2d.font = `bold ${canvasWidth/10}px sans-serif`;
     canvasContext2d.fillStyle = "black"
     canvasContext2d.textAlign = "center"
-    canvasContext2d.fillText(textMessage, windowWidth/2, windowHeight/2)
+    canvasContext2d.fillText(textMessage, canvasWidth/2, canvasHeight/2)
 
-    let imgData = canvasContext2d.getImageData(0, 0, windowWidth, windowHeight)
+    let imgData = canvasContext2d.getImageData(0, 0, canvasWidth, canvasHeight)
     let data = imgData.data
 
 
-    for(let i = 0; i < windowWidth; i += 5){
-      for(let j = 0; j < windowHeight; j += 5){
-        if(data[((windowWidth * j + i) * 4) + 3]){
+    for(let i = 0; i < canvasWidth; i += 4){
+      for(let j = 0; j < canvasHeight; j += 4){
+        if(data[((canvasWidth * j + i) * 4) + 3]){
           let x = i + randomNumDecimal(0, 3)
           let y = j + randomNumDecimal(0, 3)
           let r = randomNumDecimal(1, 1.5)
@@ -110,7 +106,7 @@ function particleText(){
 
 
   function animate(){
-    canvasContext2d.clearRect(0, 0, windowWidth, windowHeight)
+    canvasContext2d.clearRect(0, 0, canvasWidth, canvasHeight)
 
     for(let i = 0; i < particles.length; i++){
       particles[i].update()
@@ -125,30 +121,22 @@ function particleText(){
 
 
 
-
-
-
-
-
-
   form.addEventListener('submit', function(e){
     e.preventDefault()
     textMessage = text.value
 
-    canvasContext2d.clearRect(0, 0, windowWidth, windowHeight)
+    canvasContext2d.clearRect(0, 0, canvasWidth, canvasHeight)
     init(textMessage)
     animate()
   })
 
-  // console.log(particles[0].accX);
-  // console.log(particles[24].accX);
-  // console.log(particles[78].accX);
 
 
+  
 
   window.addEventListener('resize', function() {
-    windowWidth = canvas.width = window.innerWidth
-    windowHeight = canvas.height = window.innerHeight
+    canvasWidth = canvas.width = window.innerWidth
+    canvasHeight = canvas.height = window.innerHeight
      
     init()
   }) 
