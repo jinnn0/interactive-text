@@ -5,29 +5,20 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const fse = require('fs-extra')
 
-// class RunAfterCompile { 
-//   apply(compiler){
-//     compiler.hooks.done.tap('Copy images', function(){
-//       fse.copySync('./app/src/images', './docs/src/images')
-//     })
-//   } 
-// } 
-
-
-let cssConfig = { 
+let cssConfig = {  
   test: /\.scss$/i,  
   use: [
-    'css-loader',  // 2. turns css into common js
-    'sass-loader'  // 1. turns sass into css
+    'css-loader',  
+    'sass-loader' 
   ] 
 } 
 
 let pages = fse.readdirSync('./app')
-                .filter(function(file){  // returns new array of file ends with .html
+                .filter(function(file){  
                   return file.endsWith('.html')
                 }) 
                 .map(function(page){
-                  return new HtmlWebpackPlugin({
+                  return new HtmlWebpackPlugin({ 
                     filename: page,
                     template: `./app/${page}`
                   })
@@ -49,12 +40,12 @@ let config = {
 // for "dev"
 if(currentTask == 'dev'){
     config.mode = 'development'
-
+ 
     config.output = { 
       filename: 'bundled.js',
       path: path.resolve(__dirname, 'app')
     }    
-   
+    
     config.devServer = {      
       before: function(app, server){
         server._watch('./app/**/*.html')  
@@ -99,48 +90,8 @@ if(currentTask == 'build'){
     config.plugins.push(
         new CleanWebpackPlugin(), 
         new MiniCssExtractPlugin({filename:'styles.[chunkhash].css' }),
-        // new RunAfterCompile()
         )
 }   
    
 
 module.exports = config
-
-
-
-
-
-
-
-
-// const path = require('path'); 
-
-// module.exports = {     
-//   entry: './app/src/scripts/app.js',   
-//   output: { 
-//     filename: 'bundled.js',
-//     path: path.resolve(__dirname, 'app')
-//   },                
-//   devServer: {      
-//     before: function(app, server){
-//       server._watch('*.html') 
-//     },
-//     contentBase: path.join(__dirname, 'app'),
-//     hot: true,   
-//     port: 3000,  
-//     host: '0.0.0.0'     
-//   },   
-//   mode: 'development',   
-//   module: {  
-//     rules: [ 
-//       {  
-//         test: /\.scss$/i,
-//         use: [
-//           'style-loader',// 3. inject styles into DOM
-//           'css-loader',  // 2. turns css into common js
-//           'sass-loader'  // 1. turns sass into css
-//         ]
-//       }
-//     ]
-//   } 
-// }    
