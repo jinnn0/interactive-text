@@ -4,14 +4,11 @@ let canvas = document.querySelector("canvas")
 let canvasContext2d = canvas.getContext("2d") 
 let canvasWidth = canvas.width = window.innerWidth
 let canvasHeight = canvas.height = window.innerHeight
-// let canvasWidth 
-// let canvasHeight 
-
 let form = document.querySelector('form')
 let text = form.querySelector(".text")
 let textMessage = text.value 
-   
-// resizeToMatchDisplaySize(canvas)    
+  
+    
 let mouse = {x: undefined, y: undefined}
 
 function Particle(x, y, r, accX, accY){
@@ -76,7 +73,6 @@ function Particle(x, y, r, accX, accY){
   }
 }
 
-
 let particles;
 function init(){
   particles = []
@@ -106,6 +102,7 @@ function init(){
 
 function animate(){
   canvasContext2d.clearRect(0, 0, canvasWidth, canvasHeight)
+
   for(let i = 0; i < particles.length; i++){
     particles[i].update()
   } 
@@ -129,16 +126,17 @@ form.addEventListener('submit', function(e){
 })
 
 
-function resizeToMatchDisplaySize(canvas) {
-  canvasWidth  = canvas.clientWidth  * window.devicePixelRatio;
-  canvasHeight = canvas.clientHeight * window.devicePixelRatio;
- if (canvas.width !== canvasWidth || canvas.height !== canvasHeight) {
-   canvas.width  = canvasWidth;
-   canvas.height = canvasHeight;
-   return true;
- }
- return false;
-}
+window.addEventListener('resize', function() {
+  canvasWidth = canvas.width = window.innerWidth
+  canvasHeight = canvas.height = window.innerHeight
+    
+  init() 
+}) 
+
+window.addEventListener('mousemove', function(e){
+  mouse.x = e.clientX
+  mouse.y = e.clientY
+})
 
 function randomIntFromRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -154,15 +152,3 @@ function dist(x1, y1, x2, y2){
 
   return Math.sqrt(Math.pow(xDist, 2)+ Math.pow(yDist, 2))
 }
-
-window.addEventListener('resize', function() {
-  canvasWidth = canvas.width = window.innerWidth
-  canvasHeight = canvas.height = window.innerHeight
-    
-  init() 
-}) 
-
-window.addEventListener('mousemove', function(e){
-  mouse.x = e.clientX
-  mouse.y = e.clientY
-})

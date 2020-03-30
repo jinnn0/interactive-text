@@ -1,15 +1,17 @@
 const currentTask = process.env.npm_lifecycle_event
-const path = require('path')
+const path = require('path') 
+const fse = require('fs-extra')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const fse = require('fs-extra')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
-let cssConfig = {  
+
+let cssConfig = { 
   test: /\.scss$/i,  
   use: [
     'css-loader',  
-    'sass-loader' 
+    'sass-loader'  
   ] 
 } 
 
@@ -18,12 +20,12 @@ let pages = fse.readdirSync('./app')
                   return file.endsWith('.html')
                 }) 
                 .map(function(page){
-                  return new HtmlWebpackPlugin({ 
+                  return new HtmlWebpackPlugin({
                     filename: page,
                     template: `./app/${page}`
                   })
                 })
-  
+ 
  
 // for both "dev" and "build"
 let config = {
@@ -35,16 +37,16 @@ let config = {
     ]
   }   
 }
-
-
-// for "dev"
+ 
+ 
+// for "dev" 
 if(currentTask == 'dev'){
     config.mode = 'development'
- 
+
     config.output = { 
       filename: 'bundled.js',
       path: path.resolve(__dirname, 'app')
-    }    
+    }   
     
     config.devServer = {      
       before: function(app, server){
@@ -53,13 +55,24 @@ if(currentTask == 'dev'){
       contentBase: path.join(__dirname, 'app'),
       hot: true,   
       port: 3000,   
-      host: '0.0.0.0'     
+      host: '0.0.0.0',     
     }
+
+    config.plugins = [    
+      new BrowserSyncPlugin({
+        host: '0.0.0.0',
+        port: 3000,
+        proxy:'http://0.0.0.0:3000'
+      },
+      {
+        reload: false
+      }) 
+    ]
 
     cssConfig.use.unshift('style-loader')
 }
-
-
+ 
+ 
 // for "build"
 if(currentTask == 'build'){
     config.mode = 'production' 
@@ -72,8 +85,8 @@ if(currentTask == 'build'){
         options: {
           presets: ['@babel/preset-env']
         }
-      }
-    })
+      } 
+    }) 
 
     config.output = { 
       filename: '[name].[chunkhash].js',
@@ -91,7 +104,6 @@ if(currentTask == 'build'){
         new CleanWebpackPlugin(), 
         new MiniCssExtractPlugin({filename:'styles.[chunkhash].css' }),
         )
-}   
-   
+}    
 
-module.exports = config
+module.exports = config  
