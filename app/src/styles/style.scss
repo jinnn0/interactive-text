@@ -1,24 +1,50 @@
+@mixin atSmall { 
+  @media (min-width: 450px) {
+    @content
+  }
+} 
+
+@mixin atMedium {
+  @media (min-width: 750px) {
+    @content
+  }
+}
+
 * { 
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Plain", sans-serif;
-  letter-spacing: 0.01em;
   font-weight: 200;
 }  
  
 body { 
   width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(254, 246, 14, 0.8);
 }
 
 canvas {
-  background-color: rgba(254, 246, 14, 0.8);
-  border:3px solid black ;
+  display: none;
+
+  @include atSmall{
+    display: block;
+  }   
 } 
+
+
+.mobile {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+
+  @include atSmall{
+    display: none;
+  }
+}  
   
 form {
   position: relative; 
@@ -28,6 +54,11 @@ form {
   bottom: 35px;
   left: 50%;
   transform: translateX(-50%);
+  display: none;
+
+  @include atSmall{
+    display: block;
+  }
 }
 
 input{ 
@@ -45,7 +76,7 @@ input{
 input::placeholder {
   color: black
 } 
-
+ 
  
 .input-bottom {
   position: absolute;
