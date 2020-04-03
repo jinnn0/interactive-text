@@ -2,16 +2,13 @@ import '../styles/style.scss'
 
 let canvas = document.querySelector("canvas")
 let canvasContext2d = canvas.getContext("2d") 
-let canvasWidth = canvas.width = window.innerWidth
+let canvasWidth = canvas.width = window.innerWidth 
 let canvasHeight = canvas.height = window.innerHeight
-// let canvasWidth 
-// let canvasHeight 
-
+ 
 let form = document.querySelector('form')
 let text = form.querySelector(".text")
 let textMessage = text.value 
-   
-// resizeToMatchDisplaySize(canvas)    
+    
 let mouse = {x: undefined, y: undefined}
 
 function Particle(x, y, r, accX, accY){
@@ -29,19 +26,11 @@ function Particle(x, y, r, accX, accY){
   
 
   this.draw = function(){    
-    // particles
     canvasContext2d.beginPath()
-    canvasContext2d.arc(this.x, this.y, this.r, 0, Math.PI * 2)
-    // canvasContext2d.arc(this.dest.x, this.dest.y, this.r, 0, Math.PI * 2)
-    canvasContext2d.fillStyle = "rgb(250, 250, 247)"
+    canvasContext2d.fillRect(this.x, this.y, 2, 2);
+    canvasContext2d.fillStyle = "black"
     canvasContext2d.fill()
     canvasContext2d.closePath() 
-
-    // mouse ball
-    canvasContext2d.beginPath()
-    canvasContext2d.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2)
-    canvasContext2d.fill()
-    canvasContext2d.closePath()
   }
 
   this.update = function(){
@@ -65,7 +54,7 @@ function Particle(x, y, r, accX, accY){
     this.velocity.y *= this.friction;
 
     this.x += this.velocity.x;
-    this.y += this.velocity.y;
+    this.y += this.velocity.y; 
 
     if(dist(this.x, this.y, mouse.x, mouse.y) < 70){
       this.accX = (this.x - mouse.x) / 30;
@@ -77,7 +66,8 @@ function Particle(x, y, r, accX, accY){
 }
 
 
-let particles;
+let particles 
+let numParticles
 function init(){
   particles = []
 
@@ -88,11 +78,11 @@ function init(){
   let imgData = canvasContext2d.getImageData(0, 0, canvasWidth, canvasHeight)
   let data = imgData.data
 
-  for(let i = 0; i < canvasWidth; i += 4){
-    for(let j = 0; j < canvasHeight; j += 4){
+  for(let i = 0; i < canvasWidth; i += 2){
+    for(let j = 0; j < canvasHeight; j += 2){
       if(data[((canvasWidth * j + i) * 4) + 3]){
         let x = i + randomNumDecimal(0, 3)
-        let y = j + randomNumDecimal(0, 3)
+        let y = j + randomNumDecimal(0, 3) 
         let r = randomNumDecimal(1, 1.5)
         let accX = randomNumDecimal(-3, 0.2)
         let accY = randomNumDecimal(-3, 0.2)
@@ -101,23 +91,26 @@ function init(){
       } 
     }
   }
+
+  numParticles = particles.length
 } 
 
 
 function animate(){
   canvasContext2d.clearRect(0, 0, canvasWidth, canvasHeight)
-  for(let i = 0; i < particles.length; i++){
+
+  for(let i = 0; i < numParticles; i++){
     particles[i].update()
   } 
-
   requestAnimationFrame(animate)
 }
 
 init()
 animate()
+ 
 
 
-
+ 
 
 form.addEventListener('submit', function(e){
   e.preventDefault()
@@ -152,15 +145,15 @@ function dist(x1, y1, x2, y2){
   let xDist = x1 - x2
   let yDist = y1 - y2
 
-  return Math.sqrt(Math.pow(xDist, 2)+ Math.pow(yDist, 2))
-}
+  return Math.sqrt( (xDist * xDist) + (yDist * yDist))
+} 
 
 window.addEventListener('resize', function() {
-  canvasWidth = canvas.width = window.innerWidth
-  canvasHeight = canvas.height = window.innerHeight
-    
-  init() 
-}) 
+    canvasWidth = canvas.width = window.innerWidth
+    canvasHeight = canvas.height = window.innerHeight  
+         
+     init() 
+ }) 
 
 window.addEventListener('mousemove', function(e){
   mouse.x = e.clientX
