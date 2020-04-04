@@ -12,7 +12,7 @@ let mouse = {x: undefined, y: undefined}
 
 canvasContext2d.fillStyle = "black"
 
-
+ 
 
 function Particle(x, y, accX, accY){
   this.x = x
